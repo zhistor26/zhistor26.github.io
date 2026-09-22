@@ -1,45 +1,4 @@
-const posts = [
-  {
-    title: "OpenMP 并行优化 CFD 网格处理",
-    summary: "记录一次有限元网格数据处理的并行化实践：从热点定位、循环拆分到线程调度，以及优化前后的性能变化。",
-    tags: ["C++", "CFD", "OpenMP"], words: "3,284", date: "2026-09-21"
-  },
-  {
-    title: "任意平面切片算法的工程实现",
-    summary: "从平面与单元求交开始，处理浮点误差、拓扑连接和等值结果，最终在工业场景中稳定输出切片数据。",
-    tags: ["CFD", "Geometry", "C++"], words: "4,106", date: "2026-09-18"
-  },
-  {
-    title: "POD 降阶模型：从数学公式到 C++ 引擎",
-    summary: "POD/ROM 不只是推导。本文更关注快照组织、基构建、在线预测和工程接口之间如何衔接。",
-    tags: ["ROM", "Numerical Method"], words: "5,720", date: "2026-09-12"
-  },
-  {
-    title: "ONNX Runtime CUDA 推理服务实践",
-    summary: "使用 Go 编排服务、ONNX Runtime 执行模型，并围绕显存复用和并发请求做性能与稳定性优化。",
-    tags: ["AI", "CUDA", "Go"], words: "2,940", date: "2026-09-06"
-  },
-  {
-    title: "IPP 数学函数的 ARM NEON 移植笔记",
-    summary: "实现 ippsAbs、ippsExp、ippsSin 与 ippsCos，重点记录向量化思路、边界处理与精度验证方法。",
-    tags: ["C++", "ARM", "SIMD"], words: "3,680", date: "2026-08-27"
-  },
-  {
-    title: "CSAPP：程序的机器级表示",
-    summary: "把汇编、调用约定、栈帧和 C 语言行为连在一起理解，并整理适合工程开发者的学习路线。",
-    tags: ["CSAPP", "Linux"], words: "2,316", date: "2026-08-20"
-  },
-  {
-    title: "OpenCV 文档涂改检测中的几个难点",
-    summary: "填空题、大题墨迹与印刷背景不是同一类问题。这里整理检测链路、误判来源与后续改进方向。",
-    tags: ["OpenCV", "Computer Vision"], words: "2,104", date: "2026-08-11"
-  },
-  {
-    title: "做一个真正能进入工作流的 Coding Agent",
-    summary: "从终端交互、VS Code 插件、多模型代理到 Token 看板，聊聊企业 Coding Agent 的落地取舍。",
-    tags: ["AI Agent", "Engineering"], words: "3,452", date: "2026-07-30"
-  }
-];
+const posts = window.BLOG_NOTES || [];
 
 const projects = [
   ["01", "CFD 快速预测引擎", "C++17 / OpenMP / POD / ROM", "有限元网格处理、任意平面切片与机器学习快速预测。"],
@@ -54,7 +13,7 @@ const dialog = document.querySelector("#search-dialog");
 const searchInput = document.querySelector("#search-input");
 const searchResults = document.querySelector("#search-results");
 const searchStatus = document.querySelector("#search-status");
-const commonTags = ["C++", "CFD", "OpenMP", "CUDA", "AI Agent", "CSAPP"];
+const commonTags = ["C++", "Effective C++", "最佳实践"];
 const tagCounts = new Map();
 posts.forEach(post => post.tags.forEach(tag => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)));
 let previousSection = "";
@@ -68,7 +27,7 @@ function safeDecode(value) {
 }
 
 function articleURL(post) {
-  return "#article/" + encodeURIComponent(post.title);
+  return post.url;
 }
 
 function tagsMarkup(tags) {
@@ -79,7 +38,7 @@ function postMarkup(post) {
   return `<li class="post-item">
     <h2 class="post-heading"><a class="post-title" href="${articleURL(post)}">${escapeHTML(post.title)}</a></h2>
     <p class="post-summary">${escapeHTML(post.summary)}</p>
-    <div class="post-meta"><time datetime="${post.date}">${post.date}</time><span class="meta-divider" aria-hidden="true">·</span>
+    <div class="post-meta"><a href="#reading">${escapeHTML(post.category)}</a><span class="meta-divider" aria-hidden="true">·</span><time datetime="${post.date}">${post.date}</time><span class="meta-divider" aria-hidden="true">·</span>
       <span class="post-tags">${tagsMarkup(post.tags.slice(0, 2))}${post.tags.length > 2 ? `<a class="more-tags" href="${articleURL(post)}" aria-label="查看本文全部 ${post.tags.length} 个标签">+${post.tags.length - 2}</a>` : ""}</span>
     </div>
   </li>`;
@@ -92,8 +51,12 @@ function pageHeader(title, description = "") {
 function home() {
   return `<section class="page"><div class="intro">
     <h1 class="motto">「保持好奇，记录每一次工程实践」</h1>
-    <p class="count">${posts.length} 篇示例文章 · C++ / CFD / HPC</p>
+    <p class="count">${posts.length} 篇文章 · 读书笔记</p>
   </div><ul class="post-list">${posts.map(postMarkup).join("")}</ul></section>`;
+}
+
+function readingPage() {
+  return `<section class="page">${pageHeader("读书笔记", "读过的书、留下的问题，以及逐渐弄明白的原理。")}<p class="reading-count count">${posts.length} 篇笔记</p><ul class="post-list">${posts.map(postMarkup).join("")}</ul></section>`;
 }
 
 function filterMarkup(tag, count, selected) {
@@ -173,18 +136,13 @@ function aboutPage() {
 }
 
 function feedsPage() {
-  return `<section class="page">${pageHeader("Feeds")}<div class="page-copy feed-box"><p>RSS 订阅尚未配置，正式文章发布后开放。</p></div><a class="back-link" href="#home">← 返回文章列表</a></section>`;
+  const feedURL = new URL("./feed.xml", location.href).href;
+  return `<section class="page">${pageHeader("Feeds", "用你喜欢的 RSS 阅读器订阅更新")}<div class="page-copy"><p><a class="feed-url" href="./feed.xml">${escapeHTML(feedURL)}</a></p><p>复制上面的地址，添加到 RSS 阅读器即可。</p></div></section>`;
 }
 
 function articlePage(encodedTitle) {
   const post = posts.find(item => item.title === safeDecode(encodedTitle));
-  if (!post) return `<section class="page">${pageHeader("文章未找到")}<a class="back-link" href="#home">← 返回文章列表</a></section>`;
-  return `<article class="page">
-    <header class="article-header"><h1 class="page-title">${escapeHTML(post.title)}</h1><div class="post-meta"><time datetime="${post.date}">${post.date}</time><span class="meta-divider" aria-hidden="true">·</span><span>示例文章</span></div></header>
-    <div class="page-copy"><p>${escapeHTML(post.summary)}</p><p>这是一篇首版占位文章，用来验证博客的文章页排版。正式内容会以 Markdown 文章逐步替换。</p></div>
-    <nav class="article-tags" aria-label="本文标签">${tagsMarkup(post.tags)}</nav>
-    <a class="back-link" href="#home">← 返回文章列表</a>
-  </article>`;
+  return `<section class="page">${pageHeader(post ? post.title : "文章未找到")}<a class="back-link" href="${post ? articleURL(post) : '#reading'}">${post ? '阅读完整笔记 →' : '← 返回读书笔记'}</a></section>`;
 }
 
 function route(moveFocus = true) {
@@ -198,7 +156,8 @@ function route(moveFocus = true) {
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
-  if (section === "tags") app.innerHTML = tagsPage(safeDecode(hash.slice(5)));
+  if (hash === "reading") app.innerHTML = readingPage();
+  else if (section === "tags") app.innerHTML = tagsPage(safeDecode(hash.slice(5)));
   else if (hash === "projects") app.innerHTML = projectsPage();
   else if (hash === "feeds") app.innerHTML = feedsPage();
   else if (hash === "about") app.innerHTML = aboutPage();
@@ -206,20 +165,21 @@ function route(moveFocus = true) {
   else app.innerHTML = home();
 
   const pageTitle = app.querySelector("h1")?.textContent;
-  document.title = hash === "home" ? "小智 · C++ / CFD / HPC" : (pageTitle || "小智") + " · 小智";
+  document.title = (hash === "home" || hash === "search") ? "小智 · C++ / CFD / HPC" : (pageTitle || "小智") + " · 小智";
   if (moveFocus) {
     const target = retainedFilter ? [...app.querySelectorAll(".tag-filter")].find(link => link.getAttribute("href") === retainedFilter) : null;
     (target || app).focus({ preventScroll: true });
     if (!target) window.scrollTo({ top: 0, behavior: "instant" });
   }
   previousSection = section;
+  if (hash === "search" && !dialog.open) openSearch();
 }
 
 function renderSearch(query = "") {
   const q = query.trim().toLowerCase();
   const matched = q ? posts.filter(post => [post.title, post.summary, ...post.tags].join(" ").toLowerCase().includes(q)) : posts.slice(0, 5);
   searchStatus.textContent = q ? `找到 ${matched.length} 篇文章` : "最近文章";
-  searchResults.innerHTML = matched.length ? matched.map(post => `<a class="search-result" href="${articleURL(post)}"><strong>${escapeHTML(post.title)}</strong><span>${post.date} · ${escapeHTML(post.tags.slice(0, 2).join(" / "))}</span></a>`).join("") : '<p class="empty">试试 C++、CFD 或 OpenMP。</p>';
+  searchResults.innerHTML = matched.length ? matched.map(post => `<a class="search-result" href="${articleURL(post)}"><strong>${escapeHTML(post.title)}</strong><span>${post.date} · ${escapeHTML(post.tags.slice(0, 2).join(" / "))}</span></a>`).join("") : '<p class="empty">试试 C++、Effective C++ 或最佳实践。</p>';
 }
 
 document.querySelector(".skip-link").addEventListener("click", event => {
@@ -227,12 +187,13 @@ document.querySelector(".skip-link").addEventListener("click", event => {
   app.focus({ preventScroll: true });
   app.scrollIntoView({ block: "start", behavior: "instant" });
 });
-document.querySelector("#search-open").addEventListener("click", () => {
+function openSearch() {
   searchInput.value = "";
   renderSearch();
   dialog.showModal();
   searchInput.focus();
-});
+}
+document.querySelector("#search-open").addEventListener("click", openSearch);
 document.querySelector(".close").addEventListener("click", () => dialog.close());
 searchInput.addEventListener("input", event => renderSearch(event.target.value));
 searchResults.addEventListener("click", event => {

@@ -61,6 +61,30 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .about-copy li { padding-left: .15em; margin-bottom: .3em; }
 .about-copy .about-motto { margin-top: 2rem; color: var(--secondary); }
 
+.reading-count { margin: -10px 0 28px; }
+.reading-category { display: inline-block; margin-bottom: 10px; color: var(--secondary); font-size: .875rem; }
+.markdown-link { display: inline-block; margin-top: 14px; color: var(--accent); font-size: .8125rem; text-decoration: underline; text-underline-offset: 4px; }
+.article-toc { margin: 24px 0; padding: 14px 18px; border: 1px solid var(--faint); border-radius: 8px; background: #fafbfc; }
+.article-toc summary { min-height: 32px; font-size: .9375rem; }
+.article-toc ol { max-height: 340px; overflow: auto; margin: 12px 0 4px; padding-left: 1.3em; }
+.article-toc li { padding: 4px 0; font-size: .875rem; }
+.article-toc a:hover { color: var(--accent); }
+.reading-content:focus { outline: none; }
+.reading-content h2 { margin: 2.6rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid var(--faint); font-size: 1.45rem; line-height: 1.55; scroll-margin-top: 24px; }
+.reading-content h3 { margin: 1.8rem 0 .7rem; font-size: 1.2rem; }
+.reading-content h4, .reading-content h5 { margin: 1.5rem 0 .6rem; font-size: 1.0625rem; }
+.reading-content ul, .reading-content ol { padding-left: 1.5em; }
+.reading-content blockquote { margin: 1.3rem 0; padding: 12px 18px; border-left: 3px solid #d8dce1; background: #fafbfc; color: var(--secondary); font-size: .9375rem; }
+.reading-content blockquote p:last-child { margin-bottom: 0; }
+.reading-content code { padding: .12em .28em; border-radius: 3px; background: #f1f3f5; font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; font-size: .86em; }
+.reading-content pre { max-width: 100%; overflow-x: auto; margin: 1.2rem 0 1.6rem; padding: 18px; border: 1px solid var(--faint); border-radius: 7px; background: #f7f8fa; line-height: 1.75; tab-size: 4; }
+.reading-content pre code { padding: 0; background: none; border-radius: 0; font-size: .8125rem; white-space: pre; overflow-wrap: normal; }
+.reading-content table { display: block; width: max-content; max-width: 100%; overflow-x: auto; margin: 1.2rem 0; border-collapse: collapse; font-size: .9375rem; }
+.reading-content th, .reading-content td { padding: 9px 12px; border: 1px solid #e3e6ea; text-align: left; vertical-align: top; }
+.reading-content th { background: #f7f8fa; }
+.reading-content img { max-width: 100%; height: auto; }
+.reading-content hr { border: 0; border-top: 1px solid var(--faint); margin: 2rem 0; }
+
 .tag-filters { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--faint); }
 .tag-row { display: flex; flex-wrap: wrap; gap: 0 20px; align-items: center; }
 .tag-filter { display: inline-flex; align-items: center; min-height: 40px; gap: 6px; padding: 2px 0; color: var(--secondary); font-size: .875rem; text-underline-offset: 7px; }
