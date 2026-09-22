@@ -72,9 +72,9 @@ function tagsPage(selected = "") {
     ${pageHeader("Tags", "按主题查找文章")}
     <nav class="tag-filters" aria-label="按标签筛选">
       <div class="tag-row">${filterMarkup("", posts.length, selected)}${commonTags.filter(tag => tagCounts.has(tag)).map(tag => filterMarkup(tag, tagCounts.get(tag), selected)).join("")}</div>
-      <details class="extra-tags"${extraOpen ? " open" : ""}><summary>更多标签 · ${extraTags.length}</summary>
+      ${extraTags.length ? `<details class="extra-tags"${extraOpen ? " open" : ""}><summary>更多标签 · ${extraTags.length}</summary>
         <div class="tag-row">${extraTags.map(tag => filterMarkup(tag, tagCounts.get(tag), selected)).join("")}</div>
-      </details>
+      </details>` : ""}
     </nav>
     <div class="result-heading"><h2>${escapeHTML(selected || "全部文章")}</h2><span class="count">${filtered.length} 篇</span>${selected ? '<a class="filter-reset" href="#tags">清除筛选</a>' : ""}</div>
     ${filtered.length ? `<ul class="post-list">${filtered.map(postMarkup).join("")}</ul>` : '<p class="empty">还没有这个标签的文章，请选择其他标签。</p>'}
@@ -121,10 +121,6 @@ function aboutPage() {
       <li>关注实际效果，希望学到的东西能用得上。</li>
       <li>希望日子简单自在，有时间练武，也有机会看看世界。</li>
     </ul>
-    <h2>喜欢的人</h2>
-    <ul><li>暂无。</li></ul>
-    <h2>博客字体</h2>
-    <ul><li>暂未确定。</li></ul>
     <h2>感谢支持</h2>
     <ul><li>这里记录技术实践、读书笔记，以及运动和生活中的点滴。</li><li>欢迎交流，也欢迎指出文章中的错误。</li></ul>
     <h2>我的推特</h2>

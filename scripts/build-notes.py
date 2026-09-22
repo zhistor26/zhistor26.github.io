@@ -46,7 +46,26 @@ for path in sorted((ROOT / 'notes').glob('*.md')):
             block['c'][1][0] = anchor
             sections.append((anchor, label))
     body = pandoc(json.dumps(document, ensure_ascii=False), 'json', 'html5')
-    toc = ''.join(f'<li><a href="#{anchor}">{escape(label)}</a></li>' for anchor, label in sections)
+    def section_links(items):
+        return '<ul>' + ''.join(f'<li><a href="#{anchor}">{escape(label)}</a></li>' for anchor, label in items) + '</ul>'
+    groups = [
+        (1, 4, '语言基础与初始化'),
+        (5, 12, '构造、析构与赋值'),
+        (13, 17, '资源管理'),
+        (18, 25, '接口与类型设计'),
+        (26, 31, '异常安全与编译依赖'),
+        (32, 40, '继承与面向对象'),
+    ]
+    if slug == 'effective-cpp':
+        toc_parts = []
+        for first, last, label in groups:
+            items = [(anchor, title) for anchor, title in sections if first <= int(anchor.split('-')[1]) <= last]
+            if not items: continue
+            item_range = items[0][0].split('-')[1] + '–' + items[-1][0].split('-')[1]
+            toc_parts.append(f'<details class="toc-group"><summary>{escape(label)}<span class="toc-range">{item_range}</span></summary>{section_links(items)}</details>')
+        toc = '<div class="toc-groups">' + ''.join(toc_parts) + '</div>'
+    else:
+        toc = section_links(sections)
     tag_links = ' '.join(f'<span class="reading-tag">{escape(tag)}</span>' for tag in tags)
     page = f'''<!doctype html>
 <html lang="zh-CN">
@@ -56,7 +75,7 @@ for path in sorted((ROOT / 'notes').glob('*.md')):
   <title>{escape(title)} · 小智</title>
   <meta name="description" content="{escape(description, quote=True)}">
   <link rel="canonical" href="{SITE}/reading/{slug}.html">
-  <link rel="stylesheet" href="../style.css?v=5">
+  <link rel="stylesheet" href="../style.css?v=6">
   <link rel="alternate" type="application/rss+xml" title="小智的博客" href="../feed.xml">
 </head>
 <body>
@@ -78,13 +97,14 @@ for path in sorted((ROOT / 'notes').glob('*.md')):
           <div class="post-meta"><time datetime="{date}">{date}</time><span aria-hidden="true">·</span>{tag_links}</div>
           <a class="markdown-link" href="../notes/{path.name}" download>下载 Markdown 源文 ↓</a>
         </header>
-        <details class="article-toc"><summary>目录 · {len(sections)} 条笔记</summary><ol>{toc}</ol></details>
+        <details class="article-toc" id="article-toc"><summary>目录 · {len(sections)} 条笔记</summary>{toc}</details>
         <div id="article-content" class="page-copy reading-content" tabindex="-1">{body}</div>
         <a class="back-link" href="../#reading">← 返回读书笔记</a>
       </article>
     </main>
     <footer class="site-footer"><span>© 2026 小智</span><span>C++ / CFD / HPC Engineer</span></footer>
   </div>
+  <a class="toc-shortcut" href="#article-toc" aria-label="返回文章目录">↑ 目录</a>
 </body>
 </html>
 '''
