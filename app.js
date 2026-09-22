@@ -1,13 +1,5 @@
 const posts = window.BLOG_NOTES || [];
 
-const projects = [
-  ["01", "CFD 快速预测引擎", "C++17 / OpenMP / POD / ROM", "有限元网格处理、任意平面切片与机器学习快速预测。"],
-  ["02", "核动力预测系统", "C++ / Qt / VTK / ONNX Runtime / CUDA", "工业可视化客户端与 GPU 推理服务。"],
-  ["03", "IPP 数学库 ARM 移植", "C++ / ARM NEON / 飞腾", "核心数学函数的向量化实现与精度验证。"],
-  ["04", "OpenCV 阅前检测", "C++17 / OpenCV / Go", "题块检测、涂改识别与服务化部署。"],
-  ["05", "企业 Coding Agent", "TUI / VS Code / LLM / Agent", "多模型反代、开发工具集成与团队工作流。"]
-];
-
 const app = document.querySelector("#app");
 const dialog = document.querySelector("#search-dialog");
 const searchInput = document.querySelector("#search-input");
@@ -82,7 +74,7 @@ function tagsPage(selected = "") {
 }
 
 function projectsPage() {
-  return `<section class="page">${pageHeader("Projects", "数值计算、工业软件与 AI 工程实践")}<div class="project-list">${projects.map(p => `<article class="project"><span class="project-no">${p[0]}</span><h2>${escapeHTML(p[1])}</h2><p>${escapeHTML(p[3])}</p><p class="project-stack">${escapeHTML(p[2])}</p></article>`).join("")}</div></section>`;
+  return `<section class="page">${pageHeader("Projects")}<p class="empty">暂无公开项目。</p></section>`;
 }
 
 function aboutPage() {
