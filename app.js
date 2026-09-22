@@ -38,7 +38,7 @@ function postMarkup(post) {
   return `<li class="post-item">
     <h2 class="post-heading"><a class="post-title" href="${articleURL(post)}">${escapeHTML(post.title)}</a></h2>
     <p class="post-summary">${escapeHTML(post.summary)}</p>
-    <div class="post-meta"><a href="#reading">${escapeHTML(post.category)}</a><span class="meta-divider" aria-hidden="true">·</span><time datetime="${post.date}">${post.date}</time><span class="meta-divider" aria-hidden="true">·</span>
+    <div class="post-meta"><a href="#reading">Notes</a><span class="meta-divider" aria-hidden="true">·</span><time datetime="${post.date}">${post.date}</time><span class="meta-divider" aria-hidden="true">·</span>
       <span class="post-tags">${tagsMarkup(post.tags.slice(0, 2))}${post.tags.length > 2 ? `<a class="more-tags" href="${articleURL(post)}" aria-label="查看本文全部 ${post.tags.length} 个标签">+${post.tags.length - 2}</a>` : ""}</span>
     </div>
   </li>`;
@@ -51,12 +51,12 @@ function pageHeader(title, description = "") {
 function home() {
   return `<section class="page"><div class="intro">
     <h1 class="motto">「保持好奇，记录每一次工程实践」</h1>
-    <p class="count">${posts.length} 篇文章 · 读书笔记</p>
+    <p class="count">${posts.length} 篇文章</p>
   </div><ul class="post-list">${posts.map(postMarkup).join("")}</ul></section>`;
 }
 
 function readingPage() {
-  return `<section class="page">${pageHeader("读书笔记", "读过的书、留下的问题，以及逐渐弄明白的原理。")}<p class="reading-count count">${posts.length} 篇笔记</p><ul class="post-list">${posts.map(postMarkup).join("")}</ul></section>`;
+  return `<section class="page">${pageHeader("Notes", "读过的书、留下的问题，以及逐渐弄明白的原理。")}<p class="reading-count count">${posts.length} 篇笔记</p><ul class="post-list">${posts.map(postMarkup).join("")}</ul></section>`;
 }
 
 function filterMarkup(tag, count, selected) {

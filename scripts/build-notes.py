@@ -84,22 +84,22 @@ for path in sorted((ROOT / 'notes').glob('*.md')):
     <header class="site-header">
       <a class="brand" href="../" aria-label="返回首页">小智</a>
       <nav class="nav" aria-label="主要导航">
-        <a class="active" href="../#reading" aria-current="page">读书笔记</a>
         <a href="../#tags">Tags</a><a href="../#projects">Projects</a>
+        <a class="active" href="../#reading" aria-current="page">Notes</a>
         <a href="../#search">Search</a><a href="../feed.xml">Feeds</a><a href="../#about">About</a>
       </nav>
     </header>
     <main>
       <article class="reading-article">
         <header class="article-header">
-          <a class="reading-category" href="../#reading">读书笔记</a>
+          <a class="reading-category" href="../#reading">Notes</a>
           <h1 class="page-title">{escape(title)}</h1>
           <div class="post-meta"><time datetime="{date}">{date}</time><span aria-hidden="true">·</span>{tag_links}</div>
           <a class="markdown-link" href="../notes/{path.name}" download>下载 Markdown 源文 ↓</a>
         </header>
         <details class="article-toc" id="article-toc"><summary>目录 · {len(sections)} 条笔记</summary>{toc}</details>
         <div id="article-content" class="page-copy reading-content" tabindex="-1">{body}</div>
-        <a class="back-link" href="../#reading">← 返回读书笔记</a>
+        <a class="back-link" href="../#reading">← Notes</a>
       </article>
     </main>
     <footer class="site-footer"><span>© 2026 小智</span><span>C++ / CFD / HPC Engineer</span></footer>

@@ -5,11 +5,13 @@ Zhistor的个人博客｜记录 C++、计算流体力学、并行计算与性能
 ## 在线访问
 
 - 博客：<https://zhistor26.github.io/>
-- 读书笔记：<https://zhistor26.github.io/#reading>
+- Notes（读书笔记）：<https://zhistor26.github.io/#reading>
 - Effective C++：<https://zhistor26.github.io/reading/effective-cpp.html>
 - RSS：<https://zhistor26.github.io/feed.xml>
 
 ## 当前内容
+
+默认首页是文章摘要列表。顶部导航顺序为 `Tags / Projects / Notes / Search / Feeds / About`，`Notes` 为读书笔记栏目，`Projects` 为项目介绍页。
 
 目前收录 Effective C++ 读书笔记。原稿包含条款 01–25、29–40，共 37 条笔记和 285 个代码块；没有补写缺失条款。阅读页目录按内容分为 6 组，可以折叠，并提供返回目录入口。
 
