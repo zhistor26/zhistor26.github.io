@@ -11,7 +11,7 @@ Zhistor的个人博客｜记录 C++、计算流体力学、并行计算与性能
 
 ## 当前内容
 
-默认首页是文章摘要列表。顶部导航顺序为 `Tags / Projects / Notes / Search / Feeds / About`，`Notes` 为读书笔记栏目，`Projects` 为项目介绍页。
+默认首页是文章摘要列表。顶部导航为 `Tags / Notes / Search / Feeds / About`，`Notes` 为读书笔记栏目。暂无公开项目时，项目入口暂时隐藏。
 
 目前收录 Effective C++ 读书笔记。原稿包含条款 01–25、29–40，共 37 条笔记和 285 个代码块；没有补写缺失条款。阅读页目录按内容分为 6 组，可以折叠，并提供返回目录入口。
 
@@ -29,15 +29,9 @@ Zhistor的个人博客｜记录 C++、计算流体力学、并行计算与性能
 
 1. 修改 `notes/effective-cpp.md`，或在 `notes/` 下新增 `.md` 文件。
 2. 保留文件顶部的元数据；新笔记使用唯一的 `slug`，日期采用 `YYYY-MM-DD`。
-3. 安装 Python 3 和 [Pandoc](https://pandoc.org/installing.html)，在仓库根目录运行：
+3. 只提交 Markdown 到 `main`。GitHub Actions 自动生成阅读页、首页索引及 RSS，再由 GitHub Pages 发布。不要直接编辑生成的 HTML。
 
-   ```sh
-   python3 scripts/build-notes.py
-   ```
-
-4. 将 Markdown 和生成的 `reading/`、`content/notes.js`、`feed.xml` 一并提交到 `main`，GitHub Pages 会重新发布。
-
-此仓库不在 GitHub Actions 中自动转换 Markdown，修改源文后需要运行上面的生成命令。不要直接编辑生成的 HTML。
+本地预览新文章时，先安装 Python 3 和 [Pandoc](https://pandoc.org/installing.html)，运行 `python3 scripts/build-notes.py`。
 
 ## 本地预览
 
